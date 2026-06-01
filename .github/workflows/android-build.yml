@@ -2,7 +2,8 @@ name: Expo Android Build
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,25 +21,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Setup Expo
-        run: npm install -g expo-cli eas-cli
+      - name: Install EAS CLI
+        run: npm install -g eas-cli expo-cli
 
-      - name: Install dependencies
-  run: npm install
-
-- name: Install Expo + EAS
-  run: npm install -g eas-cli
-
-- name: Build Android APK
-  run: eas build --platform android --non-interactive --profile preview
-  env:
-    EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Build APK
+      - name: Build Android APK
         run: eas build --platform android --non-interactive --profile preview
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk
-          path: "*.apk"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
